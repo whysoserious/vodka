@@ -1,5 +1,9 @@
 import processing.video.*;
 
+
+PImage logo;
+
+
 //int sX = 1024;
 //int sY = 768;
 int fRate = 20;
@@ -16,6 +20,7 @@ void setup() {
   frameRate(fRate);  
   cameras = Capture.list();  
   printAvailableCameras();
+  logo = loadImage("logo.png");
 }
 
 void printAvailableCameras() {
@@ -90,6 +95,7 @@ void playFrame() {
     camera.read();
     image(camera, 0, 0, displayWidth, displayHeight);
   }
+  
 }
 
 void keyPressed() {
@@ -99,6 +105,7 @@ void keyPressed() {
     startRec(); 
     break;
   }
+  
 }
 
 void keyReleased() {
@@ -147,5 +154,6 @@ void draw() {
   else {
     playFrame();
   }
+  image(logo, 0, 0, logo.width, logo.height);
 }
 
