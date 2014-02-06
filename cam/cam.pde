@@ -69,8 +69,8 @@ void recordFrame() {
   } 
   else {  
     camera.read();
-    image(camera, 0, 0, camera.width, camera.width);
-    PImage img = createImage(camera.width, camera.width, RGB);
+    image(camera, 0, 0, displayWidth, displayHeight);
+    PImage img = createImage(camera.width, camera.height, RGB);
     img.loadPixels();
     for (int i = 0; i < camera.pixels.length; i++) {
       img.pixels[i] = camera.pixels[i];
