@@ -1,7 +1,7 @@
 import processing.video.*;
 
-int sX = displayWidth;
-int sY = displayHeight;
+//int sX = 1024;
+//int sY = 768;
 int fRate = 20;
 
 Capture camera = null;
@@ -12,7 +12,7 @@ ArrayList<PImage> frames = null;
 int currentFrame = 0;
 
 void setup() {
-  size(sX, sY);
+  size(displayWidth, displayHeight);
   frameRate(fRate);  
   cameras = Capture.list();  
   printAvailableCameras();
@@ -69,8 +69,8 @@ void recordFrame() {
   } 
   else {  
     camera.read();
-    image(camera, 0, 0, sX, sY);
-    PImage img = createImage(camera.width, camera.height, RGB);
+    image(camera, 0, 0, camera.width, camera.width);
+    PImage img = createImage(camera.width, camera.width, RGB);
     img.loadPixels();
     for (int i = 0; i < camera.pixels.length; i++) {
       img.pixels[i] = camera.pixels[i];
@@ -83,12 +83,12 @@ void recordFrame() {
 void playFrame() {
   if (frames != null && !frames.isEmpty()) {    
     println("Frames: ["+frames.size()+"] currentFrame: ["+currentFrame+"] hc: ["+frames.get(currentFrame)+"]");
-    image(frames.get(currentFrame), 0, 0, sX, sY);
+    image(frames.get(currentFrame), 0, 0, displayWidth, displayHeight);
     currentFrame = (currentFrame + 1) % frames.size();
   } 
   else if (camera != null && camera.available()) {
     camera.read();
-    image(camera, 0, 0, sX, sY);
+    image(camera, 0, 0, displayWidth, displayHeight);
   }
 }
 
@@ -135,7 +135,7 @@ void keyReleased() {
     setCamera(8); 
     break;
   case '9': 
-    setCamera(9); 
+    setCamera(26); 
     break;
   }
 }

@@ -1,6 +1,7 @@
 /*
 Funkcjonalności:
-[ ] fullscreen
+[x] fullscreen
+[ ] aspect ratio
 [ ] obraz z kamery nie może być rozjechany
 [ ] logo z PNG gdzieś na ekranie
 [ ] dźwięk
