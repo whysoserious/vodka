@@ -1,13 +1,12 @@
 /*
 Funkcjonalności:
-[x] fullscreen
-[ ] aspect ratio
-[ ] logo z PNG gdzieś na ekranie
-[ ] dźwięk
-[ ] przetestować na dużych ekranach
-[ ] filtry
+[x ] fullscreen
+[J ] aspect ratio
+[J ] 2 logo z PNG recording i playing
+[J ] dźwięk
+[JK] przetestować na dużych ekranach
+[ K] filtry
 GUI: 
-[ ] wybór kamery
-[ ] wybór filtra + suwak
-[ ] dźwięk
+[ K] wybór kamery
+[ K] wybór filtra + suwak
 */
