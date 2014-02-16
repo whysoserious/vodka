@@ -10,6 +10,7 @@ Funkcjonalności:
 [J?] crossFade na loopie video
 [J?] if duration < 2.5sec  , reverse loop   ( to ma małe priority )
 [J?] żeby po 5 min. się pojawiało info jak użyć videomatu (np."trzymaj przycisk i nagryawaj!")
+[J ] mic / audio
 GUI: 
 [ K] wybór kamery
 [ K] wybór filtra + suwak
