@@ -1,6 +1,5 @@
 import processing.video.*;
-import ddf.minim.*;
-import ddf.minim.ugens.*;
+
 
 PImage logo;
 
@@ -8,8 +7,6 @@ PImage logo;
 //int sX = 1024;
 //int sY = 768;
 int fRate = 20;
-int recNr = 1;
-int recFr = 0;
 
 Capture camera = null;
 String[] cameras = null;
@@ -18,27 +15,12 @@ boolean recording = false;
 ArrayList<PImage> frames = null;
 int currentFrame = 0;
 
-Minim minim;
-AudioInput in;
-AudioRecorder recorder;
-String audioFileName = null;
-
-AudioOutput out;
-AudioPlayer player;
-
 void setup() {
   size(displayWidth, displayHeight);
   frameRate(fRate);  
   cameras = Capture.list();  
   printAvailableCameras();
-
   logo = loadImage("logo.png");
-  
-  minim = new Minim(this);
-  in = minim.getLineIn();
-
-  out = minim.getLineOut(Minim.STEREO);
-  
 }
 
 void printAvailableCameras() {
@@ -66,26 +48,10 @@ void setCamera(int n) {
   }
 }
 
-String createWavFileName() {
-//  String fileName = "vodka_record-" + year() + "-" + month() + "-" + day() + " "
-//    + hour() + ":" + minute() + ":" + second() + ".wav";
- String fileName = "videomat-nr"+recNr+".wav";
-  return fileName;
-}
-
 void startRec() {
   if (!recording && camera != null) {
-    if (player != null && player.isPlaying()) {
-      player.mute();
-    }
     recording = true;   
-    frames = new ArrayList<PImage>(15 * fRate);
-    audioFileName = createWavFileName();
-
-    println("Recording audio to " + audioFileName);
-    recorder = minim.createRecorder(in, audioFileName);
-    recorder.beginRecord();
-    
+    frames = new ArrayList<PImage>(15 * fRate);  
     println("Recording started");
   }
 }
@@ -94,16 +60,7 @@ void stopRec() {
   if (recording) {
     recording = false;
     currentFrame = 0;
-    if (recorder.isRecording()) {
-      recorder.endRecord();
-      recorder.save();
-      player = minim.loadFile(audioFileName);
-    } else {
-      println("Error!");
-    }
     println("Recording stopped");
-    recNr++; 
-    recFr = 0;
   }
 }
 
@@ -126,20 +83,12 @@ void recordFrame() {
     img.updatePixels();   
     frames.add(img);
   }
-  
-      saveFrame("videomat-nr"+recNr+"-"+recFr+".png");
-     recFr++; 
-     
 }
 
 void playFrame() {
   if (frames != null && !frames.isEmpty()) {    
-    //    println("Frames: ["+frames.size()+"] currentFrame: ["+currentFrame+"] hc: ["+frames.get(currentFrame)+"]");
+    println("Frames: ["+frames.size()+"] currentFrame: ["+currentFrame+"] hc: ["+frames.get(currentFrame)+"]");
     image(frames.get(currentFrame), 0, 0, displayWidth, displayHeight);
-    if (currentFrame == 0) {
-      player.rewind();
-      player.play();
-    }
     currentFrame = (currentFrame + 1) % frames.size();
   } 
   else if (camera != null && camera.available()) {
@@ -150,7 +99,7 @@ void playFrame() {
 }
 
 void keyPressed() {
-  //  println("Key pressed: ["+key+"]");
+  println("Key pressed: ["+key+"]");
   switch(key) {
   case ' ': 
     startRec(); 
@@ -160,7 +109,7 @@ void keyPressed() {
 }
 
 void keyReleased() {
-  //  println("Key released: ["+key+"]");
+  println("Key released: ["+key+"]");
   switch(key) {
   case ' ': 
     stopRec(); 
@@ -205,8 +154,23 @@ void draw() {
   else {
     playFrame();
   }
-  //  image(logo, 0, 0, logo.width, logo.height);
-
- 
+  image(logo, 0, 0, logo.width, logo.height);
 }
+
+/*
+Funkcjonalności:
+[x ] fullscreen
+[J ] aspect ratio
+[J ] 2 logo z PNG recording i playing
+[J ] dźwięk
+[JK] przetestować na dużych ekranach
+[ K] filtry
+[J ] zapis video
+[J?] crossFade na loopie video
+[J?] if duration < 2.5sec  , reverse loop   ( to ma małe priority )
+[J?] żeby po 5 min. się pojawiało info jak użyć videomatu (np."trzymaj przycisk i nagryawaj!")
+GUI: 
+[ K] wybór kamery
+[ K] wybór filtra + suwak
+*/
 
