@@ -4,12 +4,9 @@ import ddf.minim.ugens.*;
 
 PImage logo;
 
-
 //int sX = 1024;
 //int sY = 768;
 int fRate = 20;
-int recNr = 1;
-int recFr = 0;
 
 Capture camera = null;
 String[] cameras = null;
@@ -67,9 +64,8 @@ void setCamera(int n) {
 }
 
 String createWavFileName() {
-//  String fileName = "vodka_record-" + year() + "-" + month() + "-" + day() + " "
-//    + hour() + ":" + minute() + ":" + second() + ".wav";
- String fileName = "videomat-nr"+recNr+".wav";
+  String fileName = "vodka_record-" + year() + "-" + month() + "-" + day() + " "
+    + hour() + ":" + minute() + ":" + second() + ".wav";
   return fileName;
 }
 
@@ -102,8 +98,6 @@ void stopRec() {
       println("Error!");
     }
     println("Recording stopped");
-    recNr++; 
-    recFr = 0;
   }
 }
 
@@ -126,10 +120,6 @@ void recordFrame() {
     img.updatePixels();   
     frames.add(img);
   }
-  
-      saveFrame("videomat-nr"+recNr+"-"+recFr+".png");
-     recFr++; 
-     
 }
 
 void playFrame() {
