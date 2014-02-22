@@ -11,31 +11,16 @@ int fRate = 20;
 Capture camera = null;
 String[] cameras = null;
 boolean recording = false;
-
 ArrayList<PImage> frames = null;
 int currentFrame = 0;
-
-Minim minim;
-AudioInput in;
-AudioRecorder recorder;
-String audioFileName = null;
-
-AudioOutput out;
-AudioPlayer player;
+AudioManager audioMan = null;
 
 void setup() {
   size(displayWidth, displayHeight);
   frameRate(fRate);  
   cameras = Capture.list();  
   printAvailableCameras();
-
-  logo = loadImage("logo.png");
-  
-  minim = new Minim(this);
-  in = minim.getLineIn();
-
-  out = minim.getLineOut(Minim.STEREO);
-  
+  audioMan = new AudioManager(this);
 }
 
 void printAvailableCameras() {
@@ -63,40 +48,22 @@ void setCamera(int n) {
   }
 }
 
-String createWavFileName() {
-  String fileName = "vodka_record-" + year() + "-" + month() + "-" + day() + " "
-    + hour() + ":" + minute() + ":" + second() + ".wav";
-  return fileName;
-}
-
 void startRec() {
   if (!recording && camera != null) {
-    if (player != null && player.isPlaying()) {
-      player.mute();
-    }
+    audioMan.stopPlay();
+    audioMan.startRec();
     recording = true;   
     frames = new ArrayList<PImage>(15 * fRate);
-    audioFileName = createWavFileName();
-
-    println("Recording audio to " + audioFileName);
-    recorder = minim.createRecorder(in, audioFileName);
-    recorder.beginRecord();
-    
     println("Recording started");
   }
 }
 
 void stopRec() {
   if (recording) {
+    audioMan.stopRec();
+    audioMan.startPlay();
     recording = false;
     currentFrame = 0;
-    if (recorder.isRecording()) {
-      recorder.endRecord();
-      recorder.save();
-      player = minim.loadFile(audioFileName);
-    } else {
-      println("Error!");
-    }
     println("Recording stopped");
   }
 }
@@ -127,8 +94,7 @@ void playFrame() {
     //    println("Frames: ["+frames.size()+"] currentFrame: ["+currentFrame+"] hc: ["+frames.get(currentFrame)+"]");
     image(frames.get(currentFrame), 0, 0, displayWidth, displayHeight);
     if (currentFrame == 0) {
-      player.rewind();
-      player.play();
+      audioMan.startPlay();
     }
     currentFrame = (currentFrame + 1) % frames.size();
   } 
@@ -195,8 +161,6 @@ void draw() {
   else {
     playFrame();
   }
-  //  image(logo, 0, 0, logo.width, logo.height);
-
  
 }
 
