@@ -1,4 +1,5 @@
 class CameraInfo {
+
   String description;
   String name;
   Integer resX;

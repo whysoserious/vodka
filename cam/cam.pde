@@ -1,5 +1,4 @@
 
-
 int fRate = 20;
 
 Capture camera = null;
@@ -21,8 +20,7 @@ void printAvailableCameras() {
   if (cameras.length == 0) {
     println("There are no cameras available for capture.");
     exit();
-  } 
-  else {
+  } else {
     println("Available cameras:");
     for (int i = 0; i < cameras.length; i++) {
       CameraInfo ci = new CameraInfo(cameras[i]);
@@ -100,21 +98,15 @@ void playFrame() {
   
 }
 
-void keyPressed() {
-  //  println("Key pressed: ["+key+"]");
-  switch(key) {
-  case ' ': 
-    startRec(); 
-    break;
-  }
-  
-}
-
 void keyReleased() {
   //  println("Key released: ["+key+"]");
   switch(key) {
-  case ' ': 
-    stopRec(); 
+  case ' ':
+    if (recording) {
+      stopRec();
+    } else {
+      startRec();
+    }
     break;
   case '0': 
     setCamera(0); 
