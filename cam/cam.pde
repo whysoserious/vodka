@@ -1,11 +1,5 @@
-import processing.video.*;
-import ddf.minim.*;
-import ddf.minim.ugens.*;
 
-PImage logo;
 
-//int sX = 1024;
-//int sY = 768;
 int fRate = 20;
 
 Capture camera = null;
@@ -31,7 +25,8 @@ void printAvailableCameras() {
   else {
     println("Available cameras:");
     for (int i = 0; i < cameras.length; i++) {
-      println(i + ": " + cameras[i]);
+      CameraInfo ci = new CameraInfo(cameras[i]);
+      println(i + ": " + cameras[i] + "Resolution: " + ci.resX + "x" + ci.resY);
     }
   }
 }
