@@ -26,7 +26,7 @@ void printAvailableCameras() {
     println("Available cameras:");
     for (int i = 0; i < cameras.length; i++) {
       CameraInfo ci = new CameraInfo(cameras[i]);
-      println(i + ": " + cameras[i] + "Resolution: " + ci.resX + "x" + ci.resY);
+      println(i + ": " + ci.description);
     }
   }
 }
